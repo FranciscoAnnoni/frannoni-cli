@@ -1,22 +1,36 @@
 # frannoni-cli
 
-**FRANNONI CLI**: instalador que configura **solo Claude Code** (MCPs, skills y plugins).
+**FRANNONI CLI**: instalador que deja **Claude Code** listo para usar (MCPs, skills, plugins y GSD). Funciona en **macOS, Windows y Linux**.
+
+## Instalación
+
+**macOS / Linux** (Terminal o Warp):
 
 ```bash
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/install.sh | bash
 ```
 
-Menú: 1) Todo · 2) MCPs base · 3) MCPs opcionales · 4) Skills · 5) Plugins · 6) GSD · 7) Ver config actual.
+**Windows** (PowerShell o Warp):
+
+```powershell
+irm https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/install.ps1 | iex
+```
+
+El comando instala lo que falte (Node, Git, Claude Code y la terminal [Warp](https://www.warp.dev), que es la recomendada) y abre el menú:
+
+1) Todo · 2) MCPs base · 3) MCPs opcionales · 4) Skills · 5) Plugins · 6) GSD · 7) Ver config actual
 
 **Todo** instala MCPs base, skills y plugins sin preguntar. Lo único que pregunta es si querés configurar MCPs con token y, en ese caso, cuáles. Al terminar abre el canal de YouTube [@frannoni](https://www.youtube.com/@frannoni).
 
-Requisitos: `claude`, `node`/`npx`, `jq`. Funciona con el bash 3.2 que trae macOS.
+Desde el repo clonado también se puede correr con `./install.sh` (Mac/Linux) o `powershell -ExecutionPolicy Bypass -File install.ps1` (Windows).
 
 ## Archivos
 
 | Archivo | Qué es |
 |---|---|
-| `install.sh` | El instalador. |
+| `install.sh` | Arranque para macOS/Linux: instala dependencias y corre el instalador. |
+| `install.ps1` | Arranque para Windows: ídem, con `winget`. |
+| `installer.mjs` | El instalador (menú, MCPs, skills, plugins, GSD). Node puro, igual en los tres sistemas. |
 | `mcps.json` | MCPs: `base` (sin token) y `optional` (con token o cuenta). |
 | `skills.txt` | Repos de skills y cuáles instalar de cada uno. |
 | `plugins.txt` | Plugins de Claude Code y su marketplace. |

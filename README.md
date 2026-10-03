@@ -1,6 +1,15 @@
-# frannoni-cli
+<p align="center">
+  <img src="assets/banner.svg" alt="FRANNONI CLI" width="100%">
+</p>
 
-**FRANNONI CLI**: instalador que deja **Claude Code** listo para usar (MCPs, skills, plugins y GSD). Funciona en **macOS, Windows y Linux**.
+<p align="center">
+  <b>Dejá Claude Code listo para usar en un solo comando.</b><br>
+  MCPs, skills, plugins y GSD · macOS, Windows y Linux · gratis
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/@frannoni?sub_confirmation=1"><img src="https://img.shields.io/badge/YouTube-@frannoni-FF0000?logo=youtube&logoColor=white" alt="YouTube @frannoni"></a>
+</p>
 
 ## Instalación
 
@@ -87,3 +96,10 @@ Si el marketplace no está agregado, el instalador lo agrega antes.
 ## GSD (opcional)
 
 [Get Shit Done](https://github.com/gsd-build/get-shit-done): método por fases (spec → plan → ejecución → verificación). No entra en **Todo** porque se pisa con Superpowers y es pesado: la versión completa ocupa ~12k tokens de contexto en cada sesión. La opción 6 instala la mínima (`--minimal`, 7 skills, ~700 tokens). Para la completa: `npx get-shit-done-cc@latest --claude --global`.
+
+---
+
+<p align="center">
+  <b>¿Te sirvió? Suscribite para más contenido 👇</b><br><br>
+  <a href="https://www.youtube.com/@frannoni?sub_confirmation=1"><img src="https://img.shields.io/badge/Suscribirme_en_YouTube-@frannoni-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Suscribite en YouTube"></a>
+</p>

@@ -1,0 +1,78 @@
+{
+  "base": {
+    "sequential-thinking": {
+      "description": "Razonamiento paso a paso",
+      "config": { "type": "stdio", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"] }
+    },
+    "context7": {
+      "description": "Docs actualizadas y por versión de librerías (sin key: límite gratis)",
+      "config": { "type": "http", "url": "https://mcp.context7.com/mcp" }
+    },
+    "deepwiki": {
+      "description": "Preguntas y docs sobre cualquier repo público de GitHub",
+      "config": { "type": "http", "url": "https://mcp.deepwiki.com/mcp" }
+    },
+    "chrome-devtools": {
+      "description": "Controlar y depurar Chrome (ver lo que se construye)",
+      "config": { "type": "stdio", "command": "npx", "args": ["-y", "chrome-devtools-mcp@latest"] }
+    },
+    "excalidraw": {
+      "description": "Diagramas en Excalidraw",
+      "config": { "type": "http", "url": "https://mcp.excalidraw.com/mcp" }
+    }
+  },
+
+  "optional": {
+    "github": {
+      "description": "Issues, PRs y búsqueda de código en GitHub",
+      "auth": "token",
+      "token_label": "GitHub Personal Access Token",
+      "token_help": "https://github.com/settings/personal-access-tokens (o se toma de 'gh auth token')",
+      "config": { "type": "http", "url": "https://api.githubcopilot.com/mcp/", "headers": { "Authorization": "Bearer {{TOKEN}}" } }
+    },
+    "firecrawl": {
+      "description": "Scraping, crawling y búsqueda web",
+      "auth": "optional-token",
+      "token_label": "Firecrawl API Key (fc-...)",
+      "token_help": "https://www.firecrawl.dev/app/api-keys — sin key: solo scrape/search con límite",
+      "config": { "type": "http", "url": "https://mcp.firecrawl.dev/v2/mcp", "headers": { "Authorization": "Bearer {{TOKEN}}" } },
+      "config_without_token": { "type": "http", "url": "https://mcp.firecrawl.dev/v2/mcp" }
+    },
+    "context7": {
+      "description": "Agregarle API key a Context7 (más límite)",
+      "auth": "token",
+      "token_label": "Context7 API Key",
+      "token_help": "https://context7.com/dashboard",
+      "config": { "type": "http", "url": "https://mcp.context7.com/mcp", "headers": { "CONTEXT7_API_KEY": "{{TOKEN}}" } }
+    },
+    "obsidian": {
+      "description": "Vault de Obsidian (plugin Local REST API con 'Enable HTTP server' activado)",
+      "auth": "token",
+      "token_label": "Obsidian Local REST API Key",
+      "token_help": "Obsidian → Settings → Local REST API → API Key",
+      "config": { "type": "http", "url": "http://127.0.0.1:27123/mcp/", "headers": { "Authorization": "Bearer {{TOKEN}}" } }
+    },
+    "alphavantage": {
+      "description": "Datos financieros y de mercado",
+      "auth": "optional-token",
+      "token_label": "Alpha Vantage API Key",
+      "token_help": "https://www.alphavantage.co/support/#api-key — sin key: login OAuth con /mcp",
+      "login_without_token": true,
+      "config": { "type": "http", "url": "https://mcp.alphavantage.co/mcp?apikey={{TOKEN}}" },
+      "config_without_token": { "type": "http", "url": "https://mcp.alphavantage.co/mcp" }
+    },
+    "21st": {
+      "description": "Buscar y generar componentes de UI (React + Tailwind + shadcn) — ex Magic MCP",
+      "auth": "token",
+      "token_label": "21st API Key",
+      "token_help": "https://21st.dev/mcp — buscar es gratis; generar y bajar código consume créditos",
+      "config": { "type": "http", "url": "https://21st.dev/api/mcp", "headers": { "x-api-key": "{{TOKEN}}" } }
+    },
+    "notion": {
+      "description": "Workspace de Notion (MCP oficial remoto)",
+      "auth": "oauth",
+      "login_without_token": true,
+      "config": { "type": "http", "url": "https://mcp.notion.com/mcp" }
+    }
+  }
+}

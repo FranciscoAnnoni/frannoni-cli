@@ -1,0 +1,4 @@
+# Plugins que se instalan con `claude plugin install <plugin>@<marketplace>`
+# Formato: <plugin@marketplace> <repo del marketplace> <descripción>
+
+superpowers@claude-plugins-official  anthropics/claude-plugins-official  Método de trabajo: brainstorming, plan, TDD, debugging, code review

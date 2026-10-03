@@ -1,0 +1,5 @@
+# Skills que se instalan con `npx skills add <repo> -g -a claude-code -s <skills>`
+# Formato: <repo> <skills separadas por coma, * = todas> <descripción>
+
+emilkowalski/skills  *                             Diseño y animación de UI (incluye /prototype)
+anthropics/skills    frontend-design,webapp-testing Frontend con buen diseño + testeo de apps web

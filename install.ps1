@@ -33,7 +33,9 @@
     return
   }
 
-  if (-not (Has 'node')) { Winget-Install 'OpenJS.NodeJS.LTS' 'Node.js' }
+  # Claude Code y el instalador necesitan Node 18 o más nuevo (si es viejo, winget lo actualiza)
+  $NodeOk = (Has 'node') -and ([int](node -p "process.versions.node.split('.')[0]") -ge 18)
+  if (-not $NodeOk) { Winget-Install 'OpenJS.NodeJS.LTS' 'Node.js LTS' }
   # Claude Code en Windows necesita Git for Windows (usa su Git Bash)
   if (-not (Has 'git'))  { Winget-Install 'Git.Git' 'Git' }
 

@@ -29,7 +29,11 @@ if [[ "$OS" == "Darwin" ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" </dev/tty
     eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
   fi
-  node_ok || { info "Instalando Node..."; brew install node || brew upgrade node; }
+  if ! node_ok; then
+    # si ya estaba instalado con brew pero es viejo, `brew install` no lo actualiza
+    if brew list node &>/dev/null; then info "Actualizando Node..."; brew upgrade node
+    else info "Instalando Node..."; brew install node; fi
+  fi
   has git || { info "Instalando Git...";  brew install git; }
   if [[ -d /Applications/Warp.app ]]; then
     ok "Warp ya está instalado."

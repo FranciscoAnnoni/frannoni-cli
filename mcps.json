@@ -26,8 +26,8 @@
     "github": {
       "description": "Issues, PRs y búsqueda de código en GitHub",
       "auth": "token",
-      "token_label": "GitHub Personal Access Token",
-      "token_help": "https://github.com/settings/personal-access-tokens (o se toma de 'gh auth token')",
+      "token_label": "GitHub Personal Access Token (fine-grained)",
+      "token_help": "https://github.com/settings/personal-access-tokens/new — fine-grained, solo los repos y permisos que necesites (queda guardado en ~/.claude.json)",
       "config": { "type": "http", "url": "https://api.githubcopilot.com/mcp/", "headers": { "Authorization": "Bearer {{TOKEN}}" } }
     },
     "firecrawl": {

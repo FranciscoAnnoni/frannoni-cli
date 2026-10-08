@@ -25,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/i
 irm https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/install.ps1 | iex
 ```
 
-El comando instala lo que falte (Node, Git, Claude Code y la terminal [Warp](https://www.warp.dev), que es la recomendada) y abre el menú:
+El comando instala lo que falte (Node 18+, Git y Claude Code), pregunta si querés instalar la terminal [Warp](https://www.warp.dev) (la recomendada) y abre el menú:
 
 1) Todo · 2) MCPs base · 3) MCPs opcionales · 4) Skills · 5) Plugins · 6) GSD · 7) Ver config actual
 
@@ -64,7 +64,7 @@ El instalador pregunta uno por uno cuáles querés y pide el token de cada uno (
 
 | MCP | Auth | Dónde sacar el token |
 |---|---|---|
-| `github` | Token (PAT). Si tenés `gh` logueado, ofrece usar `gh auth token`. | https://github.com/settings/personal-access-tokens |
+| `github` | Token (PAT fine-grained, solo con los repos y permisos que necesites). | https://github.com/settings/personal-access-tokens/new |
 | `firecrawl` | Token opcional. Sin key: scrape/search con límite. | https://www.firecrawl.dev/app/api-keys |
 | `context7` | Token. Reemplaza al base con uno con más límite. | https://context7.com/dashboard |
 | `obsidian` | Token. Necesita el plugin **Local REST API** con *Enable HTTP server* activado. | Obsidian → Settings → Local REST API |
@@ -92,6 +92,13 @@ Actualizar después: `npx skills update -g`.
 | [superpowers](https://github.com/obra/superpowers) | Método de trabajo: brainstorming → plan → TDD → debugging → code review. |
 
 Si el marketplace no está agregado, el instalador lo agrega antes.
+
+## Seguridad
+
+- **Leé el script antes de correrlo.** `curl | bash` e `irm | iex` ejecutan lo que esté en `main` en ese momento. Todo el código está en este repo: `install.sh`, `install.ps1` e `installer.mjs`.
+- **Instala cosas de terceros, en su última versión** (`@latest`): los MCPs de npm, las skills de [emilkowalski/skills](https://github.com/emilkowalski/skills) y [anthropics/skills](https://github.com/anthropics/skills), el plugin Superpowers y GSD. No están fijados a una versión, así que confiás también en esos autores.
+- **Los tokens quedan en texto plano en `~/.claude.json`**: así guarda Claude Code los MCPs. El instalador no los manda a ningún lado. Usá tokens con el mínimo permiso y revocalos si dejás de usarlos.
+- **Lo único que se instala sin preguntar es lo imprescindible**: Node, Git, Claude Code y, en Mac, Homebrew. Warp y los MCPs con token se preguntan antes.
 
 ## GSD (opcional)
 

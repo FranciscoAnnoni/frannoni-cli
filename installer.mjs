@@ -109,6 +109,11 @@ const hasCmd = (cmd) =>
   spawnSync(IS_WIN ? "where" : "which", [cmd], { stdio: "ignore" }).status === 0;
 
 function checkDeps() {
+  const node = Number(process.versions.node.split(".")[0]);
+  if (node < 18) {
+    error(`Se necesita Node 18 o más nuevo (tenés ${process.version}). Actualizalo desde https://nodejs.org y volvé a correr el instalador.`);
+    process.exit(1);
+  }
   const missing = ["claude", "npx", "git"].filter((d) => !hasCmd(d));
   if (missing.length) {
     error(`Faltan dependencias: ${missing.join(", ")}`);
@@ -164,13 +169,7 @@ async function configureOptionalMcp(name) {
 
   if (m.auth !== "oauth") {
     if (m.token_help) console.log(`    ${c.cyan}${m.token_help}${c.reset}`);
-
-    // GitHub: ofrecer el token de la sesión de gh si existe
-    if (name === "github" && hasCmd("gh")) {
-      const ghToken = capture("gh", ["auth", "token"]);
-      if (ghToken && await askYN("    ¿Usar el token de 'gh auth token'?")) token = ghToken;
-    }
-    if (!token) token = await askHidden(`    ${m.token_label}: `);
+    token = await askHidden(`    ${m.token_label}: `);
     if (!token && m.auth === "token") {
       warn(`Sin token no se puede configurar '${name}' — se saltea.`);
       return null;

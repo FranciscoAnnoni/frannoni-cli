@@ -1,6 +1,6 @@
 # ============================================================
 #  FRANNONI CLI — arranque para Windows (PowerShell, también dentro de Warp)
-#  Instala lo que falte (Node, Git, Claude Code, Warp) y corre el instalador.
+#  Instala lo que falte (Node, Git, Claude Code; Warp si querés) y corre el instalador.
 #
 #  irm https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/install.ps1 | iex
 # ============================================================
@@ -39,10 +39,11 @@
 
   winget list --id Warp.Warp -e --accept-source-agreements *> $null
   if ($LASTEXITCODE -eq 0) { Ok 'Warp ya está instalado.' }
-  else {
-    try { Winget-Install 'Warp.Warp' 'Warp (terminal recomendada)' }
+  elseif ((Read-Host '¿Querés instalar Warp (la terminal que recomiendo para Claude Code)? [s/N]') -match '^[sS]$') {
+    try { Winget-Install 'Warp.Warp' 'Warp' }
     catch { Warn 'No se pudo instalar Warp — seguí con esta terminal.' }
   }
+  else { Info 'Se saltea Warp.' }
 
   if (-not (Has 'claude')) {
     Info 'Instalando Claude Code...'

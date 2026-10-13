@@ -3,3 +3,4 @@
 
 emilkowalski/skills  *                             Diseño y animación de UI (incluye /prototype)
 anthropics/skills    frontend-design,webapp-testing Frontend con buen diseño + testeo de apps web
+vercel-labs/skills   find-skills                    Busca skills en todo el ecosistema (skills.sh) antes de resolver algo grande

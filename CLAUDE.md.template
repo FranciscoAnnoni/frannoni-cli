@@ -1,0 +1,24 @@
+## Skills: buscá antes de resolver
+
+### find-skills: primero, ver si ya existe una skill
+
+Antes de encarar algo grande, usá la skill `find-skills` para buscar si ya hay una skill que lo resuelva. "Algo grande" es cualquiera de estos casos:
+
+- el usuario plantea un problema que no es trivial,
+- quiere construir una solución o un proyecto nuevo,
+- pide una investigación o un análisis,
+- trabaja en un dominio específico (diseño, testing, deploy, documentos, datos, una librería o framework concreto).
+
+Cómo hacerlo:
+
+1. Buscá con `npx skills find <palabras clave del problema>` (por ejemplo, `npx skills find react performance`).
+2. Si aparece una skill que sirve, mostrale al usuario el nombre, para qué sirve, quién la publica, cuántas instalaciones tiene y el comando para instalarla. Preferí fuentes conocidas y skills con muchas instalaciones.
+3. Instalá solo si el usuario dice que sí. Si no aparece nada útil, decilo en una línea y seguí con la tarea.
+
+No hace falta buscar para cambios chicos, preguntas puntuales o tareas que ya cubre una skill instalada.
+
+### prototype: ofrecerla cuando se pide una web o una interfaz
+
+Cuando el usuario pida una web, una pantalla, un componente o "varias versiones" de algo visual, ofrecele usar `/prototype`. Esa skill arma varias versiones realmente distintas de la interfaz, con un selector para comparar en vivo y quedarse con la mejor.
+
+`/prototype` solo corre si el usuario la escribe, así que no la ejecutes vos: sugerila con una línea como "Si querés comparar varias versiones antes de elegir, corré `/prototype`".

@@ -42,6 +42,7 @@ Desde el repo clonado también se puede correr con `./install.sh` (Mac/Linux) o 
 | `installer.mjs` | El instalador (menú, MCPs, skills, plugins, GSD). Node puro, igual en los tres sistemas. |
 | `mcps.json` | MCPs: `base` (sin token) y `optional` (con token o cuenta). |
 | `skills.txt` | Repos de skills y cuáles instalar de cada uno. |
+| `CLAUDE.md.template` | Instrucciones que se agregan a `~/.claude/CLAUDE.md` (find-skills y /prototype). |
 | `plugins.txt` | Plugins de Claude Code y su marketplace. |
 
 Para agregar o sacar algo, se edita el archivo correspondiente; el script no tiene nada hardcodeado.
@@ -82,8 +83,18 @@ Se instalan con [`npx skills add`](https://skills.sh) en `~/.claude/skills/` (gl
 |---|---|---|
 | [emilkowalski/skills](https://github.com/emilkowalski/skills) | todas | Diseño y animación de UI. Incluye **`/prototype`**: arma varias versiones distintas de una pieza de UI con un selector para compararlas. Solo corre si la invocás. |
 | [anthropics/skills](https://github.com/anthropics/skills) | `frontend-design`, `webapp-testing` | Frontend con buen diseño y testeo de apps web. |
+| [vercel-labs/skills](https://github.com/vercel-labs/skills) | `find-skills` | Busca skills en todo el ecosistema de [skills.sh](https://skills.sh) (`npx skills find <tema>`) y te recomienda las que sirven para lo que estás haciendo. |
 
 Actualizar después: `npx skills update -g`.
+
+### CLAUDE.md global
+
+Junto con las skills, el instalador agrega a `~/.claude/CLAUDE.md` las instrucciones de [`CLAUDE.md.template`](CLAUDE.md.template), que Claude lee en cada sesión:
+
+- **find-skills primero:** ante un problema grande, un proyecto nuevo o una investigación, Claude busca si ya existe una skill que lo resuelva y te la propone antes de arrancar.
+- **/prototype:** cuando pedís una web o una interfaz, Claude te ofrece correr `/prototype` para comparar varias versiones.
+
+Se escribe entre los marcadores `<!-- frannoni-cli:start -->` y `<!-- frannoni-cli:end -->`: si ya tenías un CLAUDE.md, lo tuyo no se toca, y volver a correr el instalador solo actualiza ese bloque.
 
 ## Plugins
 

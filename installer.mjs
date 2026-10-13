@@ -5,7 +5,7 @@
 // ============================================================
 
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, readdirSync, renameSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, writeFileSync } from "node:fs";
 import { homedir, platform } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,6 +15,7 @@ const DIR = dirname(fileURLToPath(import.meta.url));
 const MCPS = JSON.parse(readFileSync(join(DIR, "mcps.json"), "utf8"));
 const CLAUDE_JSON = join(homedir(), ".claude.json"); // donde Claude Code guarda los MCPs de scope user
 const SKILLS_DIR = join(homedir(), ".claude", "skills");
+const CLAUDE_MD = join(homedir(), ".claude", "CLAUDE.md"); // instrucciones globales que Claude lee en cada sesión
 const YOUTUBE_URL = "https://www.youtube.com/@frannoni?sub_confirmation=1";
 
 let AUTO = false; // true en "Todo": instala sin preguntar (salvo MCPs con token)
@@ -239,6 +240,33 @@ async function installSkills() {
       error(`Falló la instalación de '${repo}'`);
     }
   }
+
+  installClaudeMd();
+}
+
+// ── CLAUDE.md global: cuándo usar find-skills y /prototype ──
+// Se escribe entre marcadores para no pisar lo que el usuario ya tenga: si el bloque
+// existe se reemplaza, si no se agrega al final.
+const MD_START = "<!-- frannoni-cli:start -->";
+const MD_END = "<!-- frannoni-cli:end -->";
+
+function installClaudeMd() {
+  const block = `${MD_START}\n${readFileSync(join(DIR, "CLAUDE.md.template"), "utf8").trim()}\n${MD_END}\n`;
+  const current = existsSync(CLAUDE_MD) ? readFileSync(CLAUDE_MD, "utf8") : "";
+  const start = current.indexOf(MD_START);
+  const end = current.indexOf(MD_END);
+
+  let next;
+  if (start >= 0 && end > start) {
+    next = current.slice(0, start) + block + current.slice(end + MD_END.length).replace(/^\r?\n/, "");
+  } else {
+    next = current ? `${current.replace(/\s*$/, "")}\n\n${block}` : block;
+  }
+
+  if (next === current) return ok(`CLAUDE.md ya estaba al día (${CLAUDE_MD})`);
+  mkdirSync(dirname(CLAUDE_MD), { recursive: true });
+  writeFileSync(CLAUDE_MD, next);
+  ok(`CLAUDE.md actualizado: Claude va a buscar skills con find-skills y ofrecer /prototype (${CLAUDE_MD})`);
 }
 
 async function installPlugins() {

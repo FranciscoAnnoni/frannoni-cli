@@ -82,8 +82,12 @@ Se instalan con [`npx skills add`](https://skills.sh) en `~/.claude/skills/` (gl
 | Repo | Skills | Para qué |
 |---|---|---|
 | [emilkowalski/skills](https://github.com/emilkowalski/skills) | todas | Diseño y animación de UI. Incluye **`/prototype`**: arma varias versiones distintas de una pieza de UI con un selector para compararlas. Solo corre si la invocás. |
-| [anthropics/skills](https://github.com/anthropics/skills) | `frontend-design`, `webapp-testing` | Frontend con buen diseño y testeo de apps web. |
+| [anthropics/skills](https://github.com/anthropics/skills) | `frontend-design`, `webapp-testing`, `skill-creator`, `mcp-builder` | Frontend con buen diseño, testeo de apps web, y crear tus propias skills y MCPs. |
 | [vercel-labs/skills](https://github.com/vercel-labs/skills) | `find-skills` | Busca skills en todo el ecosistema de [skills.sh](https://skills.sh) (`npx skills find <tema>`) y te recomienda las que sirven para lo que estás haciendo. |
+| [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | `vercel-react-best-practices`, `web-design-guidelines` | Buenas prácticas de rendimiento en React/Next.js y revisión de UI (accesibilidad, UX). |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | `grill-me`, `diagnosing-bugs`, `handoff`, `improve-codebase-architecture` | **`/grill-me`** te interroga sobre un plan antes de programarlo; **`diagnosing-bugs`** encuentra la causa de un bug con un método paso a paso; **`/handoff`** resume la conversación para seguir en otra sesión; **`improve-codebase-architecture`** propone mejoras de estructura en un reporte visual. También se instalan `grilling`, `codebase-design` y `domain-modeling`, que esas skills usan por dentro. |
+
+**No pisa lo que ya tenés:** si una skill con el mismo nombre ya está en `~/.claude/skills`, se mantiene la que estaba. Por ejemplo, Matt Pocock también tiene una `prototype`, pero no se instala: queda la de Emil.
 
 Actualizar después: `npx skills update -g`.
 
@@ -107,7 +111,8 @@ Si el marketplace no está agregado, el instalador lo agrega antes.
 ## Seguridad
 
 - **Leé el script antes de correrlo.** `curl | bash` e `irm | iex` ejecutan lo que esté en `main` en ese momento. Todo el código está en este repo: `install.sh`, `install.ps1` e `installer.mjs`.
-- **Instala cosas de terceros, en su última versión** (`@latest`): los MCPs de npm, las skills de [emilkowalski/skills](https://github.com/emilkowalski/skills) y [anthropics/skills](https://github.com/anthropics/skills), el plugin Superpowers y GSD. No están fijados a una versión, así que confiás también en esos autores.
+- **Instala cosas de terceros, en su última versión** (`@latest`): los MCPs de npm, las skills de los repos de la tabla de [Skills](#skills), el plugin Superpowers y GSD. No están fijados a una versión, así que confiás también en esos autores.
+- **Cuidado con las skills.** Una skill son instrucciones, y a veces scripts, que Claude sigue con tus permisos: puede leer tus archivos, correr comandos y mandar datos afuera. Es una vía nueva para meterte código malicioso directo en la compu. Las de este instalador están revisadas (son Markdown; `diagnosing-bugs` trae un script plantilla que solo hace preguntas por la terminal). Antes de instalar cualquier otra, leé su `SKILL.md` y sus scripts, y desconfiá de autores desconocidos o con pocas instalaciones. El CLAUDE.md que instala este repo le pide a Claude que haga esa revisión cada vez que te propone una skill con `find-skills`.
 - **Los tokens quedan en texto plano en `~/.claude.json`**: así guarda Claude Code los MCPs. El instalador no los manda a ningún lado. Usá tokens con el mínimo permiso y revocalos si dejás de usarlos.
 - **Lo único que se instala sin preguntar es lo imprescindible**: Node, Git, Claude Code y, en Mac, Homebrew. Warp y los MCPs con token se preguntan antes.
 

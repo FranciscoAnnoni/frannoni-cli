@@ -13,7 +13,8 @@ Cómo hacerlo:
 
 1. Buscá con `npx skills find <palabras clave del problema>` (por ejemplo, `npx skills find react performance`).
 2. Si aparece una skill que sirve, mostrale al usuario el nombre, para qué sirve, quién la publica, cuántas instalaciones tiene y el comando para instalarla. Preferí fuentes conocidas y skills con muchas instalaciones.
-3. Instalá solo si el usuario dice que sí. Si no aparece nada útil, decilo en una línea y seguí con la tarea.
+3. Antes de proponer la instalación, revisá la skill: leé su `SKILL.md` y cualquier script que traiga. Avisale al usuario si encontrás algo raro, por ejemplo comandos que descargan y ejecutan código, que leen credenciales, claves SSH o archivos `.env`, que mandan datos a servidores desconocidos o que traen texto ofuscado. Las skills corren con los permisos del usuario, así que una skill maliciosa es una forma directa de meter código en su compu.
+4. Instalá solo si el usuario dice que sí. Si no aparece nada útil, decilo en una línea y seguí con la tarea.
 
 No hace falta buscar para cambios chicos, preguntas puntuales o tareas que ya cubre una skill instalada.
 

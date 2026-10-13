@@ -219,8 +219,27 @@ const readList = (file) =>
     .filter((l) => l && !l.startsWith("#"))
     .map((l) => { const [a, b, ...rest] = l.split(/\s+/); return [a, b, rest.join(" ")]; });
 
+// Nombres de las skills de un repo (para '*'), leídos de `npx skills add <repo> --list`.
+// La CLI las lista como "│    <nombre>"; si cambia el formato devuelve [] y se instala '*' como antes.
+function listRepoSkills(repo) {
+  const out = capture("npx", ["-y", "skills@latest", "add", repo, "--list"]) ?? "";
+  return out.replace(/\x1b\[[0-9;?]*[A-Za-z]/g, "").split(/\r?\n/)
+    .map((l) => l.match(/^│ {4}([a-z0-9][\w.-]*)\s*$/i)?.[1])
+    .filter(Boolean);
+}
+
+function securityNotice() {
+  console.log(`${c.yellow}${c.bold}⚠  Ojo con las skills de terceros${c.reset}`);
+  console.log(`${c.yellow}   Una skill son instrucciones (y a veces scripts) que Claude sigue con tus permisos:`);
+  console.log(`   puede leer archivos, correr comandos y mandar datos afuera. Es una vía nueva para`);
+  console.log(`   meterte código malicioso en la compu. Las de esta lista están revisadas, pero antes de`);
+  console.log(`   instalar cualquier otra, leé su SKILL.md y sus scripts, y desconfiá de autores`);
+  console.log(`   desconocidos o con pocas instalaciones.${c.reset}\n`);
+}
+
 async function installSkills() {
   header("Skills (npx skills add)");
+  securityNotice();
   const skills = readList("skills.txt");
 
   console.log(`${c.bold}Disponibles:${c.reset}`);
@@ -231,9 +250,23 @@ async function installSkills() {
 
   for (const [repo, list] of skills) {
     if (pick && !(await askYN(`  ¿Instalar '${repo}' [${list}]?`))) continue;
-    info(`Instalando ${repo} [${list}]...`);
+
+    // No pisar lo que ya está: si una skill con el mismo nombre existe (de este repo o de otro,
+    // por ejemplo /prototype de Emil frente al de Matt), se mantiene la que estaba.
+    const installed = new Set(existsSync(SKILLS_DIR) ? readdirSync(SKILLS_DIR) : []);
+    let names = list === "*" ? listRepoSkills(repo) : list.split(",");
+    if (list === "*" && !names.length) {
+      warn(`No pude listar las skills de '${repo}': se instalan todas sin chequear duplicados.`);
+      names = ["*"];
+    }
+    const kept = names.filter((n) => installed.has(n));
+    const toInstall = names.filter((n) => !installed.has(n));
+    if (kept.length) info(`Ya instaladas, se mantienen: ${kept.join(", ")}`);
+    if (!toInstall.length) { ok(`Nada nuevo de ${repo}`); continue; }
+
+    info(`Instalando ${repo} [${toInstall.join(",")}]...`);
     // la CLI necesita un -s por skill (no acepta "a,b"); '*' va entre comillas para que el shell no lo expanda
-    const skillArgs = list.split(",").flatMap((s) => ["-s", s === "*" ? '"*"' : s]);
+    const skillArgs = toInstall.flatMap((s) => ["-s", s === "*" ? '"*"' : s]);
     if (run("npx", ["-y", "skills@latest", "add", repo, "-g", "-a", "claude-code", ...skillArgs, "-y"], { shell: true })) {
       ok(`Skills instaladas: ${repo}`);
     } else {
@@ -241,6 +274,7 @@ async function installSkills() {
     }
   }
 
+  if (existsSync(SKILLS_DIR)) console.log(`\n  ${c.gray}Para actualizarlas más adelante: npx skills update -g${c.reset}`);
   installClaudeMd();
 }
 

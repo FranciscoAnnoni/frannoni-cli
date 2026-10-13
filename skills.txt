@@ -1,6 +1,10 @@
 # Skills que se instalan con `npx skills add <repo> -g -a claude-code -s <skills>`
 # Formato: <repo> <skills separadas por coma, * = todas> <descripción>
+# Si una skill ya está en ~/.claude/skills, no se reinstala: se mantiene la que estaba.
+# Antes de sumar un repo, revisá sus SKILL.md y scripts (ver "Seguridad" en el README).
 
-emilkowalski/skills  *                             Diseño y animación de UI (incluye /prototype)
-anthropics/skills    frontend-design,webapp-testing Frontend con buen diseño + testeo de apps web
-vercel-labs/skills   find-skills                    Busca skills en todo el ecosistema (skills.sh) antes de resolver algo grande
+emilkowalski/skills       *                                                                     Diseño y animación de UI (incluye /prototype)
+anthropics/skills         frontend-design,webapp-testing,skill-creator,mcp-builder              Frontend, testeo web y crear tus propias skills y MCPs
+vercel-labs/skills        find-skills                                                           Busca skills en todo el ecosistema (skills.sh) antes de resolver algo grande
+vercel-labs/agent-skills  vercel-react-best-practices,web-design-guidelines                     Buenas prácticas de React/Next.js y revisión de UI
+mattpocock/skills         grill-me,grilling,diagnosing-bugs,handoff,improve-codebase-architecture,codebase-design,domain-modeling   Interrogar un plan, diagnosticar bugs, pasar contexto y mejorar arquitectura

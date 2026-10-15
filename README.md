@@ -27,7 +27,7 @@ irm https://raw.githubusercontent.com/FranciscoAnnoni/frannoni-cli/main/install.
 
 El comando instala lo que falte (Node 18+, Git y Claude Code), pregunta si querés instalar la terminal [Warp](https://www.warp.dev) (la recomendada) y abre el menú:
 
-1) Todo · 2) MCPs base · 3) MCPs opcionales · 4) Skills · 5) Plugins · 6) GSD · 7) Ver config actual
+1) Todo · 2) MCPs base · 3) MCPs opcionales · 4) Skills · 5) Plugins · 6) GSD · 7) REA · 8) Ver config actual
 
 **Todo** instala MCPs base, skills y plugins sin preguntar. Lo único que pregunta es si querés configurar MCPs con token y, en ese caso, cuáles. Al terminar abre el canal de YouTube [@frannoni](https://www.youtube.com/@frannoni).
 
@@ -115,6 +115,10 @@ Si el marketplace no está agregado, el instalador lo agrega antes.
 - **Cuidado con las skills.** Una skill son instrucciones, y a veces scripts, que Claude sigue con tus permisos: puede leer tus archivos, correr comandos y mandar datos afuera. Es una vía nueva para meterte código malicioso directo en la compu. Las de este instalador están revisadas (son Markdown; `diagnosing-bugs` trae un script plantilla que solo hace preguntas por la terminal). Antes de instalar cualquier otra, leé su `SKILL.md` y sus scripts, y desconfiá de autores desconocidos o con pocas instalaciones. El CLAUDE.md que instala este repo le pide a Claude que haga esa revisión cada vez que te propone una skill con `find-skills`.
 - **Los tokens quedan en texto plano en `~/.claude.json`**: así guarda Claude Code los MCPs. El instalador no los manda a ningún lado. Usá tokens con el mínimo permiso y revocalos si dejás de usarlos.
 - **Lo único que se instala sin preguntar es lo imprescindible**: Node, Git, Claude Code y, en Mac, Homebrew. Warp y los MCPs con token se preguntan antes.
+
+## REA (opcional)
+
+[REA (Reverse Engineer Anything)](https://github.com/morluto/rea): MCP + skill para ingeniería inversa (binarios, APKs, Electron, .NET, webs, firmware). No entra en **Todo** porque trae muchas tools y pide Node 22.19+, 24.11+ o 26+. La opción 7 corre `npx rea-agents@latest setup --client claude_code --yes`. Para decompilar binarios nativos hace falta Ghidra, IDA o Hopper; `npx rea-agents doctor` dice qué falta.
 
 ## GSD (opcional)
 

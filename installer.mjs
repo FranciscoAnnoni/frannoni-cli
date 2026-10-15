@@ -100,8 +100,10 @@ function askHidden(q) {
 // ── Procesos ─────────────────────────────────────────────────
 // run: muestra la salida. En Windows npx/npm/claude suelen ser .cmd → hace falta shell
 // (solo se usa con argumentos simples, sin comillas ni JSON).
+// stdin "ignore": install.sh nos lanza con </dev/tty y en macOS kqueue no soporta /dev/tty;
+// claude (binario de Bun) heredándolo crashea con "EINVAL: invalid argument, kqueue".
 const run = (cmd, args, opts = {}) =>
-  spawnSync(cmd, args, { stdio: "inherit", shell: IS_WIN, ...opts }).status === 0;
+  spawnSync(cmd, args, { stdio: ["ignore", "inherit", "inherit"], shell: IS_WIN, ...opts }).status === 0;
 const capture = (cmd, args) => {
   const r = spawnSync(cmd, args, { encoding: "utf8", shell: IS_WIN });
   return r.status === 0 ? r.stdout.trim() : null;
@@ -337,6 +339,25 @@ function installGsd() {
   else error("Falló la instalación de GSD");
 }
 
+// ── REA (aparte, no entra en "Todo") ─────────────────────────
+// Reverse Engineer Anything: MCP + skill para analizar binarios, APKs, Electron, webs, etc.
+// Usa su setup oficial (registra el MCP en ~/.claude.json y copia la skill). Pide Node más nuevo
+// que el resto. Sin --install-hopper no instala Hopper; Ghidra/IDA/JADX se configuran aparte.
+function installRea() {
+  header("REA (Reverse Engineer Anything)");
+  info("MCP + skill para ingeniería inversa: binarios, APKs, Electron, .NET, webs, firmware.");
+  const [major, minor] = process.versions.node.split(".").map(Number);
+  if (!((major === 22 && minor >= 19) || (major === 24 && minor >= 11) || major >= 26)) {
+    return error(`REA necesita Node 22.19+, 24.11+ o 26+ (tenés ${process.version}). Actualizalo y volvé a intentar.`);
+  }
+  if (run("npx", ["-y", "rea-agents@latest", "setup", "--client", "claude_code", "--yes"])) {
+    ok("REA instalado");
+    info("Para decompilar binarios nativos hace falta Ghidra, IDA o Hopper: corré 'npx rea-agents doctor'.");
+  } else {
+    error("Falló la instalación de REA");
+  }
+}
+
 // ── Estado actual ────────────────────────────────────────────
 function viewCurrent() {
   header("Configuración actual de Claude Code");
@@ -408,8 +429,9 @@ function showMenu() {
   console.log("  4) Skills");
   console.log("  5) Plugins");
   console.log("  6) GSD (opcional, versión mínima)");
-  console.log("  7) Ver configuración actual");
-  console.log("  8) Salir\n");
+  console.log("  7) REA (opcional, ingeniería inversa)");
+  console.log("  8) Ver configuración actual");
+  console.log("  9) Salir\n");
 }
 
 async function main() {
@@ -417,7 +439,7 @@ async function main() {
 
   while (true) {
     showMenu();
-    const option = await ask("  Opción [1-8]: ");
+    const option = await ask("  Opción [1-9]: ");
     console.log();
 
     switch (option) {
@@ -427,9 +449,10 @@ async function main() {
       case "4": await installSkills(); break;
       case "5": await installPlugins(); break;
       case "6": installGsd(); break;
-      case "7": viewCurrent(); await ask("\nPresioná Enter para volver al menú..."); continue;
-      case "8": console.log(`${c.cyan}¡Hasta luego!${c.reset}`); return;
-      default: warn("Opción inválida. Elegí entre 1 y 8."); await new Promise((r) => setTimeout(r, 1000)); continue;
+      case "7": installRea(); break;
+      case "8": viewCurrent(); await ask("\nPresioná Enter para volver al menú..."); continue;
+      case "9": console.log(`${c.cyan}¡Hasta luego!${c.reset}`); return;
+      default: warn("Opción inválida. Elegí entre 1 y 9."); await new Promise((r) => setTimeout(r, 1000)); continue;
     }
 
     console.log();
